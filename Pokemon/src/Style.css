@@ -1,0 +1,28 @@
+.App {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: repeat;
+  background-color: #fafafa;
+  padding-top: 4rem;
+  min-height: 100vh;
+}
+
+.navbar {
+  background-color: #ef5350 !important;
+}
+
+body {
+  background-color: rgb(20, 4, 235) !important;
+}
+.index-module__logo_container--sUGNH {
+  background: lightblue;
+  padding: 10px;
+  margin: 40px;
+}
+
+.Menu {
+  color: #ef5350;
+}
+.flex-contanier {
+  color: lightgreen;
+}
