@@ -26,3 +26,23 @@ body {
 .flex-contanier {
   color: lightgreen;
 }
+.App {
+  color: rgb(97, 182, 221);
+}
+
+.ul {
+  background-color: red;
+  padding: 20px;
+}
+.flex-contanier {
+  background-color: rgb(8, 240, 77);
+  color: red;
+  margin: 20px;
+  padding: 20px;
+  display: flex;
+}
+.flex-contanier > div {
+  background-color: rgb(8, 240, 77);
+  color: red;
+  display: flex;
+}

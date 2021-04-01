@@ -5,13 +5,20 @@ import "./Style.css";
 function Menu(props) {
   return (
     <>
-      <span className="Menu">MENU</span>
+      <div className="index-module__logo_container--sUGNH">
+        <img
+          alt="PokéAPI"
+          src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
+        />
+      </div>
+      <span className="Menu">Welcome to the Pokedex</span>
+      <br></br>
       <button
         onClick={() => {
           props.changeView("pokemon");
         }}
       >
-        Pokemon
+        Start your Pokedex here!
       </button>
     </>
   );
@@ -49,62 +56,84 @@ function ViewHandler() {
 }
 
 function PokemonInfo(props) {
-  const [pokemon, setPokemon] = useState(null);
+  const pokemon = props.data;
+  //const [pokemon, setPokemon] = useState(null);
 
-  useEffect(() => {
+  /*useEffect(() => {
     getPokemon(props.data.url).then((json) => {
       setPokemon(json);
     });
   }, []);
 
-  if (pokemon === null) return <div>nothing</div>;
+  if (pokemon === null) return <div>nothing</div>;*/
 
   return (
     <>
-      <div>Name: {props.data.name}</div>
-      <img src={JSON.stringify(pokemon.sprites.front_shiny)} />
-      <div>Abilities: {JSON.stringify(pokemon.abilities)}</div>
-    </>
-  );
-}
-
-function Pokemon(props) {
-  const [pokemon, setPokemon] = useState([]);
-
-  useEffect(() => {
-    getAllPokemon().then((json) => {
-      console.log(json);
-      setPokemon(json.results);
-    });
-  }, []);
-
-  return (
-    <div>
       <div class="index-module__logo_container--sUGNH">
         <img
           alt="PokéAPI"
           src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
         />
       </div>
-      Pokemon:
-      <ul>
-        {pokemon.map((pokemon) => {
-          return (
-            <li key={pokemon.name}>
-              <span>{pokemon.name}</span>
 
-              <button
-                onClick={() => {
-                  props.changeData(pokemon);
-                  props.changeView("pokemoninfo");
-                }}
-              >
-                Info
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      <div>Name: {props.data.name}</div>
+      <div>Abilities: {JSON.stringify(pokemon.abilities)}</div>
+      <button
+        onClick={() => {
+          props.changeData(pokemon);
+          props.changeView("pokemon");
+        }}
+      >
+        Back
+      </button>
+    </>
+  );
+}
+
+function Pokemon(props) {
+  const [pokemonList, setPokemon] = useState([]);
+
+  useEffect(() => {
+    getAllPokemon().then((json) => {
+      for (let result of json.results) {
+        getPokemon(result.url).then((json) => {
+          // Vi får in den gamla pokemonList, uppdaterar så att state är den gamla + det vi får in ifrån våran fetch/api:t
+          setPokemon((pok) => pok.concat(json));
+        });
+      }
+    });
+  }, []);
+
+  return (
+    <div>
+      <div className="index-module__logo_container--sUGNH">
+        <img
+          alt="PokéAPI"
+          src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png"
+        />
+      </div>
+      <div className="flex-container">
+        Pokemon:
+        <ul>
+          {pokemonList.map((pokemon) => {
+            return (
+              <li key={pokemon.name}>
+                <img src={pokemon.sprites.front_shiny.toString()} />
+                <span>{pokemon.name}</span>
+                {" * "}
+                <button
+                  onClick={() => {
+                    props.changeData(pokemon);
+                    props.changeView("pokemoninfo");
+                  }}
+                >
+                  Info
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 }
